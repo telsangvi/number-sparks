@@ -248,6 +248,12 @@ export default function App() {
   const handleStart = () => {
     setStarted(true)
     startAmbient()
+    // Request fullscreen on the user gesture — hides browser chrome on Android/desktop
+    const el = document.documentElement as HTMLElement & {
+      webkitRequestFullscreen?: () => Promise<void>
+    }
+    if (el.requestFullscreen) el.requestFullscreen().catch(() => {})
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen()
   }
 
   const toggleMusic = () => {

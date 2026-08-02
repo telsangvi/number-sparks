@@ -15,20 +15,20 @@ type FlashType  = 'none' | 'correct' | 'wrong'
 
 interface Bubble { text: string; emoji: string }
 
-// Stone container anchor points (left = center, bottom = container bottom)
+// Platform anchor points — left = horizontal center of platform, bottom = bottom of platform div
 const STONE_POSITIONS = [
-  { left: 18, bottom: 20 },
-  { left: 38, bottom: 26 },
-  { left: 62, bottom: 23 },
-  { left: 82, bottom: 19 },
+  { left: 20, bottom: 22 },
+  { left: 40, bottom: 29 },
+  { left: 62, bottom: 25 },
+  { left: 82, bottom: 21 },
 ]
 
-// How far above a stone's bottom anchor the character's feet land.
-// Stone SVG is 90px tall; flat top surface ~75% from bottom = ~18% of 414px screen.
-const STONE_LAND_OFFSET = 18
+// PLATFORM_H is 70px. On a 414px landscape phone: 70/414*100 ≈ 17%.
+// Character feet land at stone.bottom + this offset so they sit on top of the platform.
+const STONE_LAND_OFFSET = 17
 
-// Character starts on the left cliff edge
-const CHAR_START = { left: 4, bottom: STONE_POSITIONS[0].bottom + STONE_LAND_OFFSET }
+// Character starts on the left cliff, vertically matching the first stone surface
+const CHAR_START = { left: 5, bottom: STONE_POSITIONS[0].bottom + STONE_LAND_OFFSET }
 
 const CORRECT_PHRASES = [
   (n: number) => `Yes! ${n}!`,
@@ -249,7 +249,17 @@ export default function NumberQuiz() {
       {/* ─── Game arena — full screen, absolute ───────────── */}
       <div className="absolute inset-0 z-20 pointer-events-none">
 
-        {/* Stepping stones */}
+        {/* Chasm atmospheric haze — darkens the background stone imagery
+            so our glowing platforms are the only stones the kid focuses on */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to bottom, transparent 15%, rgba(0,10,30,0.48) 32%, rgba(0,10,30,0.52) 68%, transparent 82%)',
+          }}
+        />
+
+        {/* Stepping platforms */}
         {q.options.map((num, i) => (
           <div
             key={`${currentIndex}-${i}`}

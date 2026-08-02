@@ -1,0 +1,13 @@
+{
+  "name": "Number Sparks",
+  "short_name": "Number Sparks",
+  "description": "A landscape number learning game for young children",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
