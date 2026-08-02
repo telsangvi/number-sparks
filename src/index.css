@@ -20,6 +20,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Portrait gate: hide game, show rotate prompt ── */
+.rotate-gate { display: none; }
+@media (orientation: portrait) {
+  .rotate-gate { display: flex; }
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%       { transform: translateX(-7px); }

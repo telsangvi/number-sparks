@@ -10,6 +10,26 @@ import CharacterGirl from './components/CharacterGirl'
 import MountainBackground from './components/MountainBackground'
 import './index.css'
 
+// ─── Rotate Gate ───────────────────────────────────────────────────────────────
+function RotateGate() {
+  return (
+    <div className="rotate-gate fixed inset-0 z-[200] bg-indigo-950
+      flex-col items-center justify-center gap-6 text-center px-6 select-none">
+      <motion.div
+        animate={{ rotate: [0, 0, 90, 90, 0] }}
+        transition={{ repeat: Infinity, duration: 3, times: [0, 0.3, 0.55, 0.7, 1], ease: 'easeInOut' }}
+        className="text-7xl"
+      >
+        📱
+      </motion.div>
+      <div>
+        <p className="text-white text-2xl font-extrabold drop-shadow">Rotate your device</p>
+        <p className="text-sky-300 text-sm mt-1.5 font-semibold">This game plays in landscape mode</p>
+      </div>
+    </div>
+  )
+}
+
 // ─── Splash ────────────────────────────────────────────────────────────────────
 function SplashScreen({ onStart }: { onStart: () => void }) {
   return (
@@ -82,38 +102,40 @@ function CharacterSelect() {
         </motion.div>
 
         {/* Characters */}
-        <div className="flex gap-6">
+        <div className="flex gap-8">
           {/* Boy */}
           <motion.button
             whileTap={{ scale: 0.93 }}
-            whileHover={{ scale: 1.06, y: -8 }}
-            initial={{ opacity: 0, x: -24 }}
+            whileHover={{ scale: 1.06, y: -10 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.12 }}
             onClick={() => selectCharacter('boy')}
-            className="flex flex-col items-center gap-2 bg-white/12 backdrop-blur-md
-              hover:bg-white/22 border-2 border-white/25 hover:border-white/55
-              rounded-3xl px-8 py-5 transition-all shadow-2xl"
+            className="flex flex-col items-end bg-white/12 backdrop-blur-md
+              hover:bg-white/22 border-2 border-white/25 hover:border-white/60
+              rounded-3xl px-6 pt-4 pb-0 transition-all shadow-2xl overflow-hidden"
+            style={{ minWidth: 155 }}
           >
-            <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 2.2, repeat: Infinity }}>
-              <CharacterBoy size={100} />
+            <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2.2, repeat: Infinity }}>
+              <CharacterBoy size={145} />
             </motion.div>
           </motion.button>
 
           {/* Girl */}
           <motion.button
             whileTap={{ scale: 0.93 }}
-            whileHover={{ scale: 1.06, y: -8 }}
-            initial={{ opacity: 0, x: 24 }}
+            whileHover={{ scale: 1.06, y: -10 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.18 }}
             onClick={() => selectCharacter('girl')}
-            className="flex flex-col items-center gap-2 bg-white/12 backdrop-blur-md
-              hover:bg-white/22 border-2 border-white/25 hover:border-white/55
-              rounded-3xl px-8 py-5 transition-all shadow-2xl"
+            className="flex flex-col items-end bg-white/12 backdrop-blur-md
+              hover:bg-white/22 border-2 border-white/25 hover:border-white/60
+              rounded-3xl px-6 pt-4 pb-0 transition-all shadow-2xl overflow-hidden"
+            style={{ minWidth: 155 }}
           >
-            <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 2.2, repeat: Infinity, delay: 0.4 }}>
-              <CharacterGirl size={100} />
+            <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2.2, repeat: Infinity, delay: 0.4 }}>
+              <CharacterGirl size={145} />
             </motion.div>
           </motion.button>
         </div>
@@ -235,6 +257,9 @@ export default function App() {
 
   return (
     <>
+      {/* Portrait gate — always on top, CSS-only show/hide */}
+      <RotateGate />
+
       <AnimatePresence>
         {!started && <SplashScreen onStart={handleStart} />}
       </AnimatePresence>

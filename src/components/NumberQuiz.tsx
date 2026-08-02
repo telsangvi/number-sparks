@@ -15,15 +15,20 @@ type FlashType  = 'none' | 'correct' | 'wrong'
 
 interface Bubble { text: string; emoji: string }
 
-// Stones placed across the lower third of the landscape — left % is stone center
+// Stone container anchor points (left = center, bottom = container bottom)
 const STONE_POSITIONS = [
-  { left: 18, bottom: 22 },
-  { left: 38, bottom: 28 },
-  { left: 62, bottom: 25 },
-  { left: 82, bottom: 21 },
+  { left: 18, bottom: 20 },
+  { left: 38, bottom: 26 },
+  { left: 62, bottom: 23 },
+  { left: 82, bottom: 19 },
 ]
-// Character starts off the left edge
-const CHAR_START = { left: 5, bottom: 24 }
+
+// How far above a stone's bottom anchor the character's feet land.
+// Stone SVG is 90px tall; flat top surface ~75% from bottom = ~18% of 414px screen.
+const STONE_LAND_OFFSET = 18
+
+// Character starts on the left cliff edge
+const CHAR_START = { left: 4, bottom: STONE_POSITIONS[0].bottom + STONE_LAND_OFFSET }
 
 const CORRECT_PHRASES = [
   (n: number) => `Yes! ${n}!`,
@@ -102,11 +107,11 @@ export default function NumberQuiz() {
   const jumpToStone = async (stoneIdx: number) => {
     const start  = charPos
     const target = {
-      left:   STONE_POSITIONS[stoneIdx].left - 4,
-      bottom: STONE_POSITIONS[stoneIdx].bottom,
+      left:   STONE_POSITIONS[stoneIdx].left,                        // centers align (both translateX -50%)
+      bottom: STONE_POSITIONS[stoneIdx].bottom + STONE_LAND_OFFSET,  // feet land on stone surface
     }
     const peakLeft   = (start.left + target.left) / 2
-    const peakBottom = Math.max(start.bottom, target.bottom) + 18
+    const peakBottom = Math.max(start.bottom, target.bottom) + 20
 
     setJumping(true)
     await posControls.start({
