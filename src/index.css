@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-baloo: 'Baloo 2', cursive;
+}
+
+html {
+  font-size: 16px;
+  /* Lock to landscape — prevents scrollbar flash on orientation change */
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-baloo);
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+  /* Ensure crisp rendering for PNG characters */
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-7px); }
+  40%       { transform: translateX(7px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+.animate-shake { animation: shake 0.4s ease; }
