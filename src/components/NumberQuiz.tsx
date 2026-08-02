@@ -379,19 +379,49 @@ export default function NumberQuiz() {
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
             className="px-4 pt-3 text-center"
           >
-            {q.type === 'missing' && q.missingSeq ? (
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-white/70 text-sm font-bold">Missing:</span>
-                {q.missingSeq.map((n, i) => (
-                  <span key={i} className={`text-xl font-extrabold ${n === null ? 'text-yellow-300' : 'text-white'}`}
-                    style={{ textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
-                    {n === null ? '?' : n}
-                    {i < q.missingSeq!.length - 1 && <span className="text-white/35 ml-1">,</span>}
-                  </span>
-                ))}
+            {/* Sequence: missing number or skip counting */}
+            {(q.type === 'missing' || q.type === 'skip') && q.missingSeq ? (
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-white/70 text-xs font-bold uppercase tracking-wide">
+                  {q.type === 'skip' ? 'Pattern' : 'Missing number'}
+                </p>
+                <div className="flex items-center gap-2">
+                  {q.missingSeq.map((n, i) => (
+                    <span key={i}>
+                      <span className={`text-2xl font-extrabold ${n === null ? 'text-yellow-300' : 'text-white'}`}
+                        style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>
+                        {n === null ? '?' : n}
+                      </span>
+                      {i < q.missingSeq!.length - 1 && <span className="text-white/35 mx-1 text-lg">,</span>}
+                    </span>
+                  ))}
+                </div>
               </div>
+
+            ) : q.type === 'count' ? (
+              /* Count emojis */
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-white/75 text-xs font-bold uppercase tracking-wide">How many?</p>
+                <div className="flex flex-wrap justify-center gap-0.5" style={{ maxWidth: 210 }}>
+                  {Array.from({ length: q.emojiCount! }).map((_, i) => (
+                    <span key={i} style={{ fontSize: 22, lineHeight: 1.2 }}>{q.emoji}</span>
+                  ))}
+                </div>
+              </div>
+
+            ) : q.type === 'wordname' ? (
+              /* Word → find the digit */
+              <div className="flex flex-col items-center gap-0.5">
+                <p className="text-white/70 text-xs font-bold uppercase tracking-wide">Find the number</p>
+                <span className="text-3xl font-extrabold capitalize"
+                  style={{ color: '#FDE68A', textShadow: '0 2px 12px rgba(0,0,0,0.9)' }}>
+                  {q.wordLabel}
+                </span>
+              </div>
+
             ) : (
-              <p className="text-2xl font-extrabold text-white"
+              /* Default: plain text prompt (next, before, double, between, biggest, smallest, even, odd) */
+              <p className="text-xl font-extrabold text-white text-center"
                 style={{ textShadow: '0 2px 14px rgba(0,0,0,0.95)' }}>
                 {q.prompt}
               </p>
