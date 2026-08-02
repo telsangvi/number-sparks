@@ -11,7 +11,8 @@ export interface NumberQuestion {
 }
 
 export const UNLOCK_THRESHOLD = 10
-export const SESSION_SIZE = 10
+// 6 questions = 6 stepping stones that fit cleanly in a landscape crossing
+export const SESSION_SIZE = 6
 
 function shuffle<T>(arr: T[]): T[] { return [...arr].sort(() => Math.random() - 0.5) }
 
@@ -78,14 +79,14 @@ export function buildSession(tier: Tier): NumberQuestion[] {
   const qs: NumberQuestion[] = []
 
   if (tier === 1) {
-    // 5 next + 5 before
-    for (let i = 0; i < 5; i++) qs.push(buildNext(min, max))
-    for (let i = 0; i < 5; i++) qs.push(buildBefore(min, max))
-  } else {
-    // 4 next + 3 before + 3 missing
-    for (let i = 0; i < 4; i++) qs.push(buildNext(min, max))
+    // 3 next + 3 before
+    for (let i = 0; i < 3; i++) qs.push(buildNext(min, max))
     for (let i = 0; i < 3; i++) qs.push(buildBefore(min, max))
-    for (let i = 0; i < 3; i++) qs.push(buildMissing(min, max))
+  } else {
+    // 2 next + 2 before + 2 missing
+    for (let i = 0; i < 2; i++) qs.push(buildNext(min, max))
+    for (let i = 0; i < 2; i++) qs.push(buildBefore(min, max))
+    for (let i = 0; i < 2; i++) qs.push(buildMissing(min, max))
   }
 
   return shuffle(qs)
